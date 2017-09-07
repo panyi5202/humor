@@ -1,0 +1,27 @@
+@startuml
+actor  service
+activate service
+service -> SqlSession: getMapper(classType)
+note right of service:classType示例\nUserMapper.class
+activate SqlSession
+SqlSession -> Configuration: getMapper(classType,this)
+activate Configuration
+Configuration -> MapperRegistry: getMapper(classType,sqlSession)
+activate MapperRegistry
+MapperRegistry -> MapperRegistry: knownMappers.get(type)
+note left:初始化的时候\n保存到map中
+
+MapperRegistry -> "MapperProxyFactory<T>": newInstance(sqlSession)
+activate "MapperProxyFactory<T>"
+"MapperProxyFactory<T>" -> "MapperProxyFactory<T>":newInstance(MapperProxy<T>)
+note left:使用动态代理创建\nmapperProxy对象
+MapperRegistry <-- "MapperProxyFactory<T>": MapperProxy<T>
+deactivate "MapperProxyFactory<T>"
+Configuration <-- MapperRegistry
+deactivate MapperRegistry
+SqlSession <-- Configuration
+deactivate Configuration
+service <-- SqlSession
+deactivate SqlSession
+deactivate service
+@enduml

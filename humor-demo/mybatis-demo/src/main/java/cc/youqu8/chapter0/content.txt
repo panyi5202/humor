@@ -1,0 +1,8 @@
+步骤：
+1、SqlSessionFactory解析mybatis-config.xml和mapper.xml，生成数据库连接、映射信息（接口、方法、参数、返回实体类）；这里解析
+出来的数据是全局的；
+2、通过SqlSessionFactory创建SqlSession和Executor；这里SqlSession是会话层的类，所有对外接口都通过这个类对外提供，包括执行
+CRUD、事务提交、回滚、关闭资源等。Executor是内核执行sql查询、映射sql参数、将返回结果组装成实体对象的执行器，在这一层要屏蔽掉
+session层的概念；
+3、通过SqlSession执行查询，SqlSession调用Executor的响应方法；
+4、Executor执行查询，获取sql、创建Statement、设置参数、执行查询、根据返回结果创建对象并赋属性值；

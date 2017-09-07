@@ -8,5 +8,4 @@ import cc.youqu8.humor.demo.mybatis.domain.User;
  */
 public interface UserMapper {
     User select(Integer id);
-    int insert(User user);
 }

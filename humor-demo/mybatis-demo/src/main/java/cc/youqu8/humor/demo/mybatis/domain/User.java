@@ -8,7 +8,6 @@ import java.io.Serializable;
  * @author panyi on 17-8-28.
  * @since V0.0.1
  */
-@Alias("user")
 public class User implements Serializable {
     private Integer id;
     private String name;

@@ -1,10 +1,40 @@
 @startuml
-activate Alice
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
-deactivate Alice
-Bob -> TypeHandler: solve type
+actor service
+activate service
+service -> MapperProxy:select(param)\n---->invoke()
+activate MapperProxy
+MapperProxy -> MapperMethod: execute(sqlSession, args)
+activate MapperMethod
+participant SqlSession  #99FF99
+MapperMethod -> SqlSession: selectOne(statement, param)
+activate SqlSession
+participant Executor  #99FF99
+activate Executor
+SqlSession -> Executor: query(MappedStatement,..)
+activate Configuration
+Executor -> Configuration: newStatementHandler()
+Executor <-- Configuration: StatementHandler
+deactivate Configuration
+activate StatementHandler
+Executor -> StatementHandler: prepare(connection)
+Executor <-- StatementHandler: return Statement
+Executor -> StatementHandler: parameterize(Statement)
+deactivate StatementHandler
+Executor -> StatementHandler: query(statement, resultHandler)
+activate StatementHandler
+activate ResultSetHandler
+StatementHandler -> ResultSetHandler: handleResultSets(ps)
+StatementHandler <-- ResultSetHandler: List<Object>
+deactivate ResultSetHandler
+Executor <-- StatementHandler: List<Object>
+deactivate StatementHandler
+SqlSession <-- Executor
+deactivate Executor
+MapperMethod <-- SqlSession
+deactivate SqlSession
+MapperProxy <-- MapperMethod
+deactivate MapperMethod
+service <-- MapperProxy
+deactivate MapperProxy
+deactivate service
 @enduml

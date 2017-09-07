@@ -1,4 +1,4 @@
-package cc.youqu8.humor.demo.chapter1;
+package cc.youqu8.chapter1;
 
 import cc.youqu8.humor.demo.mybatis.domain.User;
 
@@ -22,8 +22,9 @@ public class JdbcDemo {
         String sql = "select * from tuser where id = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setInt(1,1);
-        ResultSet rs = ps.executeQuery();
+        ps.executeQuery();
         // 封装返回结果
+        ResultSet rs = ps.getResultSet();
         while (rs.next()){
             int id = rs.getInt("id");
             String name = rs.getString("name");
