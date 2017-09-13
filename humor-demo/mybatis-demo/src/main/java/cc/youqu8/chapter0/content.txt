@@ -6,3 +6,6 @@ CRUD、事务提交、回滚、关闭资源等。Executor是内核执行sql查�
 session层的概念；
 3、通过SqlSession执行查询，SqlSession调用Executor的响应方法；
 4、Executor执行查询，获取sql、创建Statement、设置参数、执行查询、根据返回结果创建对象并赋属性值；
+
+chapter 1
+目标：创建Mapper的代理类，通过调用接口的方法来访问；

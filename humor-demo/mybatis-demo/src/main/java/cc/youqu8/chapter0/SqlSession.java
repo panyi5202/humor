@@ -33,4 +33,7 @@ public class SqlSession {
             e.printStackTrace();
         }
     }
+    public <T> T getMapper(Class<T> type){
+        return configuration.getMapper(type, this);
+    }
 }

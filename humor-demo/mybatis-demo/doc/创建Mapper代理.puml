@@ -1,0 +1,26 @@
+@startuml
+SqlSessionFactoryBuilder -> XMLConfigBuilder: parse()
+XMLConfigBuilder -> XMLMapperBuilder: new XMLMapperBuilder(\nconfiguration,resource,\ninputStream)
+XMLConfigBuilder <-- XMLMapperBuilder
+XMLConfigBuilder -> XMLMapperBuilder: parse()
+activate XMLMapperBuilder
+XMLMapperBuilder -> XMLMapperBuilder: buildStatementFromContext\n(selectNode)
+activate XMLMapperBuilder
+XMLMapperBuilder -> XMLStatementBuilder: new XMLStatementBuilder(\nconfiguration,xnode)
+XMLMapperBuilder <-- XMLStatementBuilder
+XMLMapperBuilder -> XMLStatementBuilder: parseStatementNode()
+activate XMLStatementBuilder
+XMLStatementBuilder -> MapperBuilderAssistant: addMappedStatement(\nsqlSource,resultTypeClass\n,parameterTypeClass,...)
+MapperBuilderAssistant -> MappedStatement: build()
+activate MappedStatement
+MapperBuilderAssistant <-- MappedStatement: another authentication Response
+deactivate MappedStatement
+MapperBuilderAssistant -> Configuration: addMappedStatement(statement)
+deactivate XMLStatementBuilder
+deactivate XMLMapperBuilder
+XMLMapperBuilder -> XMLMapperBuilder: bindMapperForNamespace()
+activate XMLMapperBuilder
+XMLMapperBuilder -> Configuration: addMapper(boundType)
+deactivate XMLMapperBuilder
+deactivate XMLMapperBuilder
+@enduml
